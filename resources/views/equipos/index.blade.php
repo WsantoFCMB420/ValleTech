@@ -1,116 +1,101 @@
-<!DOCTYPE html>
-<html lang="es">
+@extends('layouts.app')
+@section('title', 'Equipos')
+@section('topbar-title', 'EQUIPMENT // INVENTORY')
 
-<head>
-    <meta charset="UTF-8">
-    <title>Equipos — ValleTech</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f4f6f8;
-        }
+@section('content')
 
-        .navbar {
-            background-color: #0E3C42;
-        }
-
-        .btn-valletech {
-            background-color: #0C2D38;
-            color: #fff;
-            border: none;
-        }
-
-        .btn-valletech:hover {
-            background-color: #0A202E;
-            color: #fff;
-        }
-
-        .badge-operativo {
-            background-color: #198754;
-        }
-
-        .badge-reparacion {
-            background-color: #fd7e14;
-        }
-
-        .badge-fuera {
-            background-color: #dc3545;
-        }
-
-        .card-header-vt {
-            background-color: #0E3C42;
-            color: #fff;
-        }
-    </style>
-</head>
-
-<body>
-    <nav class="navbar navbar-dark px-4 py-3">
-        <span class="navbar-brand fw-bold fs-4">⚙️ ValleTech — CMMS</span>
-    </nav>
-
-    <div class="container mt-4">
-        @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-
-        <div class="card shadow-sm">
-            <div class="card-header card-header-vt d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Gestión de Equipos</h5>
-                <a href="{{ route('equipos.create') }}" class="btn btn-sm btn-light fw-bold">+ Nuevo Equipo</a>
-            </div>
-            <div class="card-body p-0">
-                <table class="table table-hover mb-0">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>#</th>
-                            <th>Nombre</th>
-                            <th>Estado</th>
-                            <th>Descripción</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($equipos as $equipo)
-                            <tr>
-                                <td>{{ $equipo->id }}</td>
-                                <td>{{ $equipo->nombre }}</td>
-                                <td>
-                                    @php
-                                        $clase = match ($equipo->estado) {
-                                            'Operativo' => 'badge-operativo',
-                                            'En reparación' => 'badge-reparacion',
-                                            'Fuera de servicio' => 'badge-fuera',
-                                            default => 'bg-secondary',
-                                        };
-                                    @endphp
-                                    <span class="badge {{ $clase }}">{{ $equipo->estado }}</span>
-                                </td>
-                                <td>{{ Str::limit($equipo->descripcion, 50) }}</td>
-                                <td>
-                                    <a href="{{ route('equipos.show', $equipo) }}" class="btn btn-sm btn-info">Ver</a>
-                                    <a href="{{ route('equipos.edit', $equipo) }}"
-                                        class="btn btn-sm btn-warning">Editar</a>
-                                    <form action="{{ route('equipos.destroy', $equipo) }}" method="POST"
-                                        class="d-inline" onsubmit="return confirm('¿Eliminar este equipo?')">
-                                        @csrf @method('DELETE')
-                                        <button class="btn btn-sm btn-danger">Eliminar</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5" class="text-center text-muted py-3">No hay equipos registrados.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-            <div class="card-footer">
-                {{ $equipos->links() }}
-            </div>
+    <div class="vt-page-header d-flex align-items-center justify-content-between">
+        <div>
+            <h1>Flota de Equipos</h1>
+            <p>Gestión y monitoreo de activos industriales registrados</p>
         </div>
+        @if (auth()->user()->rol === 'Admin')
+            <a href="{{ route('equipos.create') }}" class="btn-vt">
+                <i class="bi bi-plus-circle"></i> Añadir Equipo
+            </a>
+        @endif
     </div>
-</body>
 
-</html>
+    <div class="vt-card">
+        <div class="vt-card-header">
+            <span class="header-title"><i class="bi bi-cpu me-2" style="color:var(--teal)"></i>Registro de Equipos</span>
+            <span style="font-size:12px;color:var(--text-muted)">{{ $equipos->total() }} activos en sistema</span>
+        </div>
+        <table class="vt-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Equipo</th>
+                    <th>Tipo</th>
+                    <th>Ubicación</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($equipos as $equipo)
+                    <tr>
+                        <td style="color:var(--text-faint);font-size:11px;font-family:monospace">
+                            #{{ str_pad($equipo->id, 4, '0', STR_PAD_LEFT) }}</td>
+                        <td>
+                            <div style="font-weight:700;color:var(--text-primary)">{{ $equipo->nombre }}</div>
+                            <div style="font-size:11px;color:var(--text-muted)">{{ $equipo->marca ?? '—' }}
+                                {{ $equipo->modelo ?? '' }}</div>
+                        </td>
+                        <td><span class="vt-badge badge-info">{{ $equipo->tipo }}</span></td>
+                        <td style="color:var(--text-muted);font-size:13px">{{ $equipo->ubicacion ?? '—' }}</td>
+                        <td>
+                            @php
+                                $sc = match ($equipo->estado ?? 'Activo') {
+                                    'Activo' => 'badge-success',
+                                    'Inactivo' => 'badge-danger',
+                                    'En Mantenimiento' => 'badge-warning',
+                                    default => 'badge-muted',
+                                };
+                            @endphp
+                            <span class="vt-badge {{ $sc }}">{{ $equipo->estado ?? 'Activo' }}</span>
+                        </td>
+                        <td>
+                            <div style="display:flex;gap:6px;flex-wrap:wrap">
+                                <a href="{{ route('equipos.show', $equipo) }}" class="btn-vt-outline btn-sm-vt">
+                                    <i class="bi bi-eye"></i> Ver
+                                </a>
+                                @if (auth()->user()->rol === 'Admin')
+                                    <a href="{{ route('equipos.edit', $equipo) }}" class="btn-vt-warning btn-sm-vt">
+                                        <i class="bi bi-pencil"></i> Editar
+                                    </a>
+                                    <form action="{{ route('equipos.destroy', $equipo) }}" method="POST" class="d-inline"
+                                        onsubmit="return confirm('¿Eliminar este equipo?')">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="btn-vt-danger btn-sm-vt">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    </form>
+                                @endif
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="6" style="text-align:center;color:var(--text-muted);padding:48px 16px">
+                            <i class="bi bi-inbox" style="font-size:32px;display:block;margin-bottom:10px;opacity:0.4"></i>
+                            No hay equipos registrados.
+                            @if (auth()->user()->rol === 'Admin')
+                                <br><a href="{{ route('equipos.create') }}" class="btn-vt"
+                                    style="margin-top:16px;display:inline-flex">
+                                    <i class="bi bi-plus-circle"></i> Añadir primer equipo
+                                </a>
+                            @endif
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+        @if ($equipos->hasPages())
+            <div style="padding:16px 20px;border-top:1px solid var(--border)">
+                <nav class="vt-pagination">{{ $equipos->links() }}</nav>
+            </div>
+        @endif
+    </div>
+
+@endsection

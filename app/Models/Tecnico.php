@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Equipos extends Model
+class Tecnico extends Model
 {
-    protected $fillable = ['nombre', 'estado', 'descripcion'];
+    protected $fillable = ['nombre', 'apellido', 'email', 'telefono', 'especialidad', 'estado'];
 
     public function mantenimientos(): HasMany
     {
-        return $this->hasMany(Mantenimiento::class, 'equipo_id');
+        return $this->hasMany(Mantenimiento::class);
     }
 }

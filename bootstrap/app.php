@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'rol' => VerificarRol::class,
         ]);
+        $middleware->appendToGroup('web', \App\Http\Middleware\TwoFactorMiddleware::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

@@ -1,25 +1,65 @@
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Recuperar Contraseña — ValleTech</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f6f8;
+        }
+
+        .card-header-vt {
+            background-color: #0E3C42;
+            color: #fff;
+        }
+
+        .btn-vt {
+            background-color: #0C2D38;
+            color: #fff;
+            border: none;
+        }
+
+        .btn-vt:hover {
+            background-color: #0A202E;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5" style="max-width:480px">
+        <div class="card shadow">
+            <div class="card-header card-header-vt">
+                <h5 class="mb-0">Recuperar Contraseña</h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted small mb-4">
+                    ¿Olvidaste tu contraseña? Ingresa tu correo y te enviaremos un enlace para restablecerla.
+                </p>
+
+                @if (session('status'))
+                    <div class="alert alert-success small">{{ session('status') }}</div>
+                @endif
+
+                <form method="POST" action="{{ route('password.email') }}">
+                    @csrf
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Correo electrónico</label>
+                        <input type="email" name="email" class="form-control" value="{{ old('email') }}" required
+                            autofocus>
+                        @error('email')
+                            <div class="text-danger small mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-vt">Enviar enlace</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+</body>
 
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <form method="POST" action="{{ route('password.email') }}">
-        @csrf
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Email Password Reset Link') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+</html>

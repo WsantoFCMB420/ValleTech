@@ -1,78 +1,61 @@
-<!DOCTYPE html>
-<html lang="es">
+@extends('layouts.app')
+@section('title', 'Nuevo Equipo')
+@section('topbar-title', 'EQUIPMENT // NEW ASSET')
 
-<head>
-    <meta charset="UTF-8">
-    <title>Nuevo Equipo — ValleTech</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f4f6f8;
-        }
+@section('content')
+    <div class="vt-page-header d-flex align-items-center justify-content-between">
+        <div>
+            <h1>Registrar Nuevo Equipo</h1>
+            <p>Añade un nuevo activo industrial al sistema</p>
+        </div>
+        <a href="{{ route('equipos.index') }}" class="btn-vt-outline"><i class="bi bi-arrow-left"></i> Volver</a>
+    </div>
 
-        .card-header-vt {
-            background-color: #0E3C42;
-            color: #fff;
-        }
-
-        .btn-valletech {
-            background-color: #0C2D38;
-            color: #fff;
-        }
-
-        .btn-valletech:hover {
-            background-color: #0A202E;
-            color: #fff;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container mt-5" style="max-width:600px">
-        <div class="card shadow">
-            <div class="card-header card-header-vt">
-                <h5 class="mb-0">➕ Registrar Nuevo Equipo</h5>
+    @if ($errors->any())
+        <div class="vt-alert vt-alert-danger mb-4">
+            <i class="bi bi-exclamation-triangle"></i>
+            <div>
+                @foreach ($errors->all() as $e)
+                    <div>{{ $e }}</div>
+                @endforeach
             </div>
-            <div class="card-body">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $e)
-                                <li>{{ $e }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-                <form action="{{ route('equipos.store') }}" method="POST">
-                    @csrf
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Nombre del equipo</label>
-                        <input type="text" name="nombre" class="form-control" value="{{ old('nombre') }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Estado</label>
-                        <select name="estado" class="form-select" required>
-                            <option value="">-- Seleccione --</option>
-                            <option value="Operativo" {{ old('estado') == 'Operativo' ? 'selected' : '' }}>Operativo
-                            </option>
-                            <option value="En reparación" {{ old('estado') == 'En reparación' ? 'selected' : '' }}>En
-                                reparación</option>
-                            <option value="Fuera de servicio"
-                                {{ old('estado') == 'Fuera de servicio' ? 'selected' : '' }}>Fuera de servicio</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Descripción</label>
-                        <textarea name="descripcion" class="form-control" rows="3">{{ old('descripcion') }}</textarea>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <a href="{{ route('equipos.index') }}" class="btn btn-secondary">← Volver</a>
-                        <button type="submit" class="btn btn-valletech">Guardar Equipo</button>
-                    </div>
-                </form>
+        </div>
+    @endif
+
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="vt-card">
+                <div class="vt-card-header"><span class="header-title"><i class="bi bi-cpu me-2"
+                            style="color:var(--teal)"></i>Datos del Equipo</span></div>
+                <div class="vt-card-body">
+                    <form action="{{ route('equipos.store') }}" method="POST">
+                        @csrf
+                        <div class="vt-form-group">
+                            <label class="vt-label">Nombre del equipo *</label>
+                            <input type="text" name="nombre" class="vt-input" value="{{ old('nombre') }}" required
+                                placeholder="Ej. Compresor HVAC-X1">
+                        </div>
+                        <div class="vt-form-group">
+                            <label class="vt-label">Estado *</label>
+                            <select name="estado" class="vt-input vt-select" required>
+                                <option value="">— Seleccione un estado —</option>
+                                @foreach (['Activo', 'Inactivo', 'En Mantenimiento', 'Fuera de servicio'] as $est)
+                                    <option value="{{ $est }}" {{ old('estado') == $est ? 'selected' : '' }}>
+                                        {{ $est }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="vt-form-group">
+                            <label class="vt-label">Descripción</label>
+                            <textarea name="descripcion" class="vt-input vt-textarea" placeholder="Descripción técnica del equipo...">{{ old('descripcion') }}</textarea>
+                        </div>
+                        <div style="display:flex;gap:12px;margin-top:8px">
+                            <button type="submit" class="btn-vt"><i class="bi bi-floppy"></i> Guardar Equipo</button>
+                            <a href="{{ route('equipos.index') }}" class="btn-vt-outline">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</body>
-
-</html>
+@endsection
