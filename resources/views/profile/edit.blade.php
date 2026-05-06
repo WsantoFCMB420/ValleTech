@@ -37,7 +37,22 @@
                 <div class="vt-card-body">
                     <form method="POST" action="{{ route('profile.update') }}">
                         @csrf @method('patch')
-                        <div class="vt-form-group">
+                        <label for="image">Imagen de Usuario</label>
+                        <input type="file" class="form-control @error('image') is-invalid @enderror"accept="image/*">
+                        @error('image')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        @isset($blog)
+                            @if ($blog->image_path)
+                                <div class="mt-3">
+                                    <p class="mb-1">Imagen actual:</p>
+                                    <img src="{{ asset('storage/' . $blog->image_path) }}" alt="Imagen del blog"
+                                        style="max-width: 200px; border-radius: 8px;">
+                                </div>
+                            @endif
+
+                        @endisset
+                        <div class="vt-form-|1group">
                             <label class="vt-label">Nombre completo</label>
                             <input type="text" name="name" class="vt-input"
                                 value="{{ old('name', auth()->user()->name) }}" required>
@@ -114,7 +129,7 @@
                         <span class="vt-badge badge-muted"><i class="bi bi-circle-fill" style="font-size:6px"></i>
                             INACTIVO</span>
                     @endif
-                </div>
+                </div>1
                 <div class="vt-card-body">
                     @if (auth()->user()->google2fa_secret)
                         <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">
