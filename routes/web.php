@@ -39,7 +39,7 @@ Route::get('/dashboard', function () {
         'tecnicosActivos',
         'ultimosMantenimientos'
     ));
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified', 'no-cache'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

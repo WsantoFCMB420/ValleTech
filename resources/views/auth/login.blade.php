@@ -281,6 +281,39 @@
             color: var(--text-muted);
         }
 
+        .btn-back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-bright);
+            border-radius: 8px;
+            color: var(--text-muted);
+            font-family: 'Darker Grotesque', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            margin-bottom: 24px;
+        }
+
+        .btn-back-home:hover {
+            background: var(--teal-glow);
+            border-color: var(--teal-dim);
+            color: var(--teal);
+            transform: translateX(-2px);
+        }
+
+        .btn-back-home i {
+            font-size: 14px;
+            transition: transform 0.2s;
+        }
+
+        .btn-back-home:hover i {
+            transform: translateX(-3px);
+        }
+
         .login-footer a {
             color: var(--teal);
             text-decoration: none;
@@ -347,6 +380,9 @@
 
     <div class="login-right">
         <div class="login-form-wrapper">
+            <a href="/" class="btn-back-home">
+                <i class="bi bi-arrow-left"></i> Volver al Inicio
+            </a>
             <div class="login-form-title">Bienvenido de vuelta</div>
             <div class="login-form-sub">Inicia sesión para acceder al sistema</div>
 

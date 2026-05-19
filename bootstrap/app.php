@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\NoCacheHeaders;
 use App\Http\Middleware\TwoFactorMiddleware;
 use App\Http\Middleware\VerificarRol;
 use Illuminate\Foundation\Application;
@@ -15,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'rol' => VerificarRol::class,
+            'no-cache' => NoCacheHeaders::class,
         ]);
         $middleware->appendToGroup('web', TwoFactorMiddleware::class);
     })
