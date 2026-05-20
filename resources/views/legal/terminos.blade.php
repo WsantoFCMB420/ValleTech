@@ -25,6 +25,7 @@
             --teal-dim: #157a68;
             --text-primary: #dce8f0;
             --text-muted: #6b8299;
+            --bg-hero: linear-gradient(135deg, #0a1525, #0f2a3a);
         }
 
         [data-theme="light"] {
@@ -36,6 +37,7 @@
             --teal-dim: #11806c;
             --text-primary: #1a2332;
             --text-muted: #5a6a7e;
+            --bg-hero: linear-gradient(135deg, #e6eef4, #f4f7fb);
         }
 
         html.theme-transition,
@@ -114,9 +116,9 @@
         }
 
         .hero {
-            background: linear-gradient(135deg, #0a1525, #0f2a3a);
+            background: var(--bg-hero);
             border-bottom: 1px solid var(--border);
-            padding: 60px 40px;
+            padding: clamp(60px, 8vw, 100px) clamp(20px, 4vw, 40px);
             text-align: center;
         }
 
@@ -137,15 +139,15 @@
         }
 
         .hero h1 {
-            font-size: 36px;
+            font-size: clamp(32px, 5vw, 48px);
             font-weight: 900;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
         .hero p {
-            font-size: 14px;
+            font-size: clamp(14px, 2vw, 18px);
             color: var(--text-muted);
-            max-width: 560px;
+            max-width: 640px;
             margin: 0 auto;
         }
 
