@@ -28,6 +28,7 @@
                     <th>Equipo</th>
                     <th>Tipo</th>
                     <th>Ubicación</th>
+                    <th>Responsable</th>
                     <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
@@ -44,6 +45,14 @@
                         </td>
                         <td><span class="vt-badge badge-info">{{ $equipo->tipo }}</span></td>
                         <td style="color:var(--text-muted);font-size:13px">{{ $equipo->ubicacion ?? '—' }}</td>
+                        <td>
+                            @if($equipo->tecnico)
+                                <div style="font-size:13px;color:var(--text-primary)">{{ $equipo->tecnico->nombre }} {{ $equipo->tecnico->apellido }}</div>
+                                <div style="font-size:10px;color:var(--text-muted)">{{ $equipo->tecnico->especialidad }}</div>
+                            @else
+                                <span style="font-size:12px;color:var(--text-muted);font-style:italic">No asignado</span>
+                            @endif
+                        </td>
                         <td>
                             @php
                                 $sc = match ($equipo->estado ?? 'Operativo') {

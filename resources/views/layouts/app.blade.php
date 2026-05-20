@@ -848,6 +848,9 @@
                 class="{{ request()->routeIs('mantenimientos.*') ? 'active' : '' }}">
                 <i class="bi bi-tools"></i> Mantenimientos
             </a>
+            <a href="{{ route('chat.index') }}" class="{{ request()->routeIs('chat.*') ? 'active' : '' }}">
+                <i class="bi bi-chat-dots"></i> Soporte Técnico
+            </a>
 
             @if (auth()->user()->rol === 'Admin')
                 <div class="vt-nav-section" style="margin-top:10px">Administración</div>

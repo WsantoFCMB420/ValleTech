@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TecnicoController;
 use App\Http\Controllers\TwoFactorController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\ChatController;
 use App\Models\Equipos;
 use App\Models\Mantenimiento;
 use App\Models\Tecnico;
@@ -62,6 +63,11 @@ Route::middleware('auth')->group(function () {
         Route::resource('tecnicos', TecnicoController::class);
         Route::resource('usuarios', UsuarioController::class)->except(['show']);
     });
+
+    // Chat
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+    Route::post('/chat', [ChatController::class, 'store'])->name('chat.store');
+    Route::get('/chat/messages', [ChatController::class, 'getMessages'])->name('chat.messages');
 });
 
 require __DIR__.'/auth.php';

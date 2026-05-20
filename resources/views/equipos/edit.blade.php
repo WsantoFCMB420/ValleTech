@@ -49,6 +49,17 @@
                             </select>
                         </div>
                         <div class="vt-form-group">
+                            <label class="vt-label">Técnico Responsable</label>
+                            <select name="tecnico_id" class="vt-input vt-select">
+                                <option value="">— Sin asignar —</option>
+                                @foreach ($tecnicos as $tecnico)
+                                    <option value="{{ $tecnico->id }}" {{ old('tecnico_id', $equipo->tecnico_id) == $tecnico->id ? 'selected' : '' }}>
+                                        {{ $tecnico->nombre }} {{ $tecnico->apellido }} ({{ $tecnico->especialidad }})
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="vt-form-group">
                             <label class="vt-label">Descripción</label>
                             <textarea name="descripcion" class="vt-input vt-textarea">{{ old('descripcion', $equipo->descripcion) }}</textarea>
                         </div>

@@ -42,6 +42,22 @@
                     <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">Descripción</div>
                     <div style="font-size:13px;color:var(--text-muted);line-height:1.6">{{ $equipo->descripcion ?? 'Sin descripción registrada.' }}</div>
                 </div>
+                <div>
+                    <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">Técnico Responsable</div>
+                    @if($equipo->tecnico)
+                        <div style="display:flex;align-items:center;gap:10px;margin-top:5px">
+                            <div style="width:32px;height:32px;background:var(--card-bg-light);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--teal)">
+                                <i class="bi bi-person-gear"></i>
+                            </div>
+                            <div>
+                                <div style="font-size:14px;font-weight:600;color:var(--text-primary)">{{ $equipo->tecnico->nombre }} {{ $equipo->tecnico->apellido }}</div>
+                                <div style="font-size:11px;color:var(--text-muted)">{{ $equipo->tecnico->especialidad }}</div>
+                            </div>
+                        </div>
+                    @else
+                        <div style="font-size:13px;color:var(--text-faint);font-style:italic">Actualmente sin responsable asignado</div>
+                    @endif
+                </div>
                 <hr style="border-color:var(--border);margin:4px 0">
                 <div style="display:flex;justify-content:space-between;font-size:12px">
                     <span style="color:var(--text-muted)">Registrado</span>

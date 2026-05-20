@@ -12,7 +12,7 @@ class DashboardController extends Controller
     {
         $totalEquipos = Equipos::count();
         $equiposOperativos = Equipos::where('estado', 'Operativo')->count();
-        $equiposReparacion = Equipos::where('estado', 'En reparación')->count();
+        $equiposEnMantenimiento = Equipos::where('estado', 'En Mantenimiento')->count();
         $equiposFuera = Equipos::where('estado', 'Fuera de servicio')->count();
 
         $totalTecnicos = Tecnico::where('estado', 'Activo')->count();
@@ -30,7 +30,7 @@ class DashboardController extends Controller
         return view('dashboard', compact(
             'totalEquipos',
             'equiposOperativos',
-            'equiposReparacion',
+            'equiposEnMantenimiento',
             'equiposFuera',
             'totalTecnicos',
             'mantenimientosPendientes',

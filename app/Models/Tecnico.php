@@ -13,4 +13,9 @@ class Tecnico extends Model
     {
         return $this->hasMany(Mantenimiento::class);
     }
+
+    public function equipos(): HasMany
+    {
+        return $this->hasMany(Equipos::class, 'tecnico_id');
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Equipos;
+use App\Models\Tecnico;
 use Illuminate\Http\Request;
 
 class EquiposController extends Controller
@@ -20,7 +21,7 @@ class EquiposController extends Controller
             $query->where('estado', $request->estado);
         }
 
-        $equipos = $query->latest()->paginate(10);
+        $equipos = $query->with('tecnico')->latest()->paginate(10);
 
         return view('equipos.index', compact('equipos'));
     }
@@ -31,7 +32,8 @@ class EquiposController extends Controller
             abort(403);
         }
 
-        return view('equipos.create');
+        $tecnicos = Tecnico::where('estado', 'Activo')->get();
+        return view('equipos.create', compact('tecnicos'));
     }
 
     public function store(Request $request)
@@ -44,9 +46,10 @@ class EquiposController extends Controller
             'nombre' => 'required|string|max:255',
             'estado' => 'required|in:Operativo,En reparación,Fuera de servicio,En Mantenimiento,Activo,Inactivo',
             'descripcion' => 'nullable|string',
+            'tecnico_id' => 'nullable|exists:tecnicos,id',
         ]);
 
-        Equipos::create($request->only('nombre', 'estado', 'descripcion'));
+        Equipos::create($request->only('nombre', 'estado', 'descripcion', 'tecnico_id'));
 
         return redirect()->route('equipos.index')
             ->with('success', 'Equipo registrado correctamente.');
@@ -68,7 +71,8 @@ class EquiposController extends Controller
             abort(403);
         }
 
-        return view('equipos.edit', compact('equipo'));
+        $tecnicos = Tecnico::where('estado', 'Activo')->get();
+        return view('equipos.edit', compact('equipo', 'tecnicos'));
     }
 
     public function update(Request $request, Equipos $equipo)
@@ -81,9 +85,10 @@ class EquiposController extends Controller
             'nombre' => 'required|string|max:255',
             'estado' => 'required|in:Operativo,En reparación,Fuera de servicio,En Mantenimiento,Activo,Inactivo',
             'descripcion' => 'nullable|string',
+            'tecnico_id' => 'nullable|exists:tecnicos,id',
         ]);
 
-        $equipo->update($request->only('nombre', 'estado', 'descripcion'));
+        $equipo->update($request->only('nombre', 'estado', 'descripcion', 'tecnico_id'));
 
         return redirect()->route('equipos.index')
             ->with('success', 'Equipo actualizado correctamente.');
