@@ -42,7 +42,7 @@ class EquiposController extends Controller
 
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'estado' => 'required|in:Operativo,En reparación,Fuera de servicio',
+            'estado' => 'required|in:Operativo,En reparación,Fuera de servicio,En Mantenimiento,Activo,Inactivo',
             'descripcion' => 'nullable|string',
         ]);
 
@@ -79,7 +79,7 @@ class EquiposController extends Controller
 
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'estado' => 'required|in:Operativo,En reparación,Fuera de servicio',
+            'estado' => 'required|in:Operativo,En reparación,Fuera de servicio,En Mantenimiento,Activo,Inactivo',
             'descripcion' => 'nullable|string',
         ]);
 

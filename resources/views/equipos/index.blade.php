@@ -46,10 +46,10 @@
                         <td style="color:var(--text-muted);font-size:13px">{{ $equipo->ubicacion ?? '—' }}</td>
                         <td>
                             @php
-                                $sc = match ($equipo->estado ?? 'Activo') {
-                                    'Activo' => 'badge-success',
-                                    'Inactivo' => 'badge-danger',
+                                $sc = match ($equipo->estado ?? 'Operativo') {
+                                    'Operativo' => 'badge-success',
                                     'En Mantenimiento' => 'badge-warning',
+                                    'Fuera de servicio' => 'badge-danger',
                                     default => 'badge-muted',
                                 };
                             @endphp

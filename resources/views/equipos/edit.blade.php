@@ -41,7 +41,7 @@
                         <div class="vt-form-group">
                             <label class="vt-label">Estado *</label>
                             <select name="estado" class="vt-input vt-select" required>
-                                @foreach (['Activo', 'Inactivo', 'En Mantenimiento', 'Fuera de servicio', 'Operativo', 'En reparación'] as $est)
+                                @foreach (['Operativo', 'En Mantenimiento', 'Fuera de servicio'] as $est)
                                     <option value="{{ $est }}"
                                         {{ old('estado', $equipo->estado) == $est ? 'selected' : '' }}>{{ $est }}
                                     </option>
