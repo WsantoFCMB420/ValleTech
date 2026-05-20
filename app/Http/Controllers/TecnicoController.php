@@ -5,18 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\Tecnico;
 use Illuminate\Http\Request;
 
-class TecnicoController extends Controller
-{
-    public function __construct()
-    {
-        $this->middleware(function ($request, $next) {
-            if (auth()->user()->rol === 'Tecnico' &&
-                in_array($request->route()->getActionMethod(), ['create', 'store', 'edit', 'update', 'destroy'])) {
-                abort(403, 'No tienes permiso para realizar esta acción.');
-            }
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Closure;
 
-            return $next($request);
-        });
+class TecnicoController extends Controller implements HasMiddleware
+{
+    public static function middleware(): array
+    {
+        return [
+            new Middleware(function ($request, Closure $next) {
+                if (auth()->check() && auth()->user()->rol === 'Tecnico' &&
+                    in_array($request->route()->getActionMethod(), ['create', 'store', 'edit', 'update', 'destroy'])) {
+                    abort(403, 'No tienes permiso para realizar esta acción.');
+                }
+
+                return $next($request);
+            })
+        ];
     }
 
     public function index()
