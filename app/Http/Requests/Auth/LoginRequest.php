@@ -50,6 +50,15 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        $user = Auth::user();
+        if ($user->estado !== 'Aprobado') {
+            Auth::logout();
+            
+            throw ValidationException::withMessages([
+                'email' => 'Tu cuenta aún no ha sido aprobada por un administrador.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 

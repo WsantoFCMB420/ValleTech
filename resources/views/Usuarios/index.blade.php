@@ -31,6 +31,7 @@
                     <th>Usuario</th>
                     <th>Email</th>
                     <th>Rol</th>
+                    <th>Estado</th>
                     <th>Registrado</th>
                     <th>2FA</th>
                     <th>Acciones</th>
@@ -56,6 +57,15 @@
                         <td>
                             <span
                                 class="vt-badge {{ $usuario->rol == 'Admin' ? 'badge-danger' : 'badge-muted' }}">{{ $usuario->rol }}</span>
+                        </td>
+                        <td>
+                            @if ($usuario->estado === 'Aprobado')
+                                <span class="vt-badge badge-success">Aprobado</span>
+                            @elseif ($usuario->estado === 'Pendiente')
+                                <span class="vt-badge badge-warning">Pendiente</span>
+                            @else
+                                <span class="vt-badge badge-danger">Rechazado</span>
+                            @endif
                         </td>
                         <td style="color:var(--text-muted);font-size:12px">{{ $usuario->created_at->format('d/m/Y') }}</td>
                         <td>
@@ -83,7 +93,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7" style="text-align:center;color:var(--text-muted);padding:48px">
+                        <td colspan="8" style="text-align:center;color:var(--text-muted);padding:48px">
                             <i class="bi bi-people" style="font-size:32px;display:block;margin-bottom:10px;opacity:0.4"></i>
                             No hay usuarios registrados.
                         </td>

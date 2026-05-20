@@ -44,8 +44,6 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
-
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('login', absolute: false))->with('status', 'Tu cuenta ha sido creada exitosamente. Por favor, espera a que un administrador la apruebe.');
     }
 }

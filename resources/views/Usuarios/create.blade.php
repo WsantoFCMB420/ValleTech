@@ -45,6 +45,14 @@
                                 <option value="Admin" {{ old('rol') == 'Admin' ? 'selected' : '' }}>Administrador</option>
                             </select>
                         </div>
+                        <div class="vt-form-group"><label class="vt-label">Estado *</label>
+                            <select name="estado" class="vt-input vt-select" required>
+                                <option value="Pendiente" {{ old('estado', 'Pendiente') == 'Pendiente' ? 'selected' : '' }}>Pendiente
+                                </option>
+                                <option value="Aprobado" {{ old('estado') == 'Aprobado' ? 'selected' : '' }}>Aprobado</option>
+                                <option value="Rechazado" {{ old('estado') == 'Rechazado' ? 'selected' : '' }}>Rechazado</option>
+                            </select>
+                        </div>
                         <div style="display:flex;gap:12px;margin-top:8px">
                             <button type="submit" class="btn-vt"><i class="bi bi-floppy"></i> Crear Usuario</button>
                             <a href="{{ route('usuarios.index') }}" class="btn-vt-outline">Cancelar</a>

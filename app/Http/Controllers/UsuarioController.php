@@ -27,6 +27,7 @@ class UsuarioController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
             'rol' => 'required|in:Admin,Tecnico',
+            'estado' => 'required|in:Pendiente,Aprobado,Rechazado',
         ]);
 
         User::create([
@@ -34,6 +35,7 @@ class UsuarioController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'rol' => $request->rol,
+            'estado' => $request->estado,
         ]);
 
         return redirect()->route('usuarios.index')
@@ -51,12 +53,14 @@ class UsuarioController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,'.$usuario->id,
             'rol' => 'required|in:Admin,Tecnico',
+            'estado' => 'required|in:Pendiente,Aprobado,Rechazado',
         ]);
 
         $usuario->update([
             'name' => $request->name,
             'email' => $request->email,
             'rol' => $request->rol,
+            'estado' => $request->estado,
         ]);
 
         if ($request->filled('password')) {
