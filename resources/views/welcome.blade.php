@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,14 +8,50 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script>
+        (function() {
+            var t = localStorage.getItem('vt-theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
     <style>
-        :root {
+        :root, [data-theme="dark"] {
             --teal-dark:  #0E3C42;
             --teal-mid:   #0C2D38;
             --teal-light: #4db8c8;
             --teal-muted: #a0c4cc;
             --teal-faint: #1a4f57;
             --text-dim:   #6b9ca5;
+            --text-main:  #ffffff;
+            --nav-bg:     rgba(12,29,38,.72);
+            --card-bg:    rgba(12,29,38,.75);
+            --cta-bg:     rgba(12,29,38,.9);
+            --bg-grid:    rgba(77,184,200,.04);
+            --bg-flujo:   rgba(12,29,38,.5);
+            --btn-solid-text: #0E3C42;
+            --step-num-color: rgba(77,184,200,.12);
+        }
+
+        [data-theme="light"] {
+            --teal-dark:  #f0f4f8;
+            --teal-mid:   #ffffff;
+            --teal-light: #0d8393;
+            --teal-muted: #4e7a85;
+            --teal-faint: #b8d4d8;
+            --text-dim:   #3e656d;
+            --text-main:  #113136;
+            --nav-bg:     rgba(255,255,255,.85);
+            --card-bg:    rgba(255,255,255,.9);
+            --cta-bg:     rgba(240,244,248,.95);
+            --bg-grid:    rgba(13,131,147,.08);
+            --bg-flujo:   rgba(13,131,147,.05);
+            --btn-solid-text: #ffffff;
+            --step-num-color: rgba(13,131,147,.15);
+        }
+
+        html.theme-transition, html.theme-transition *, html.theme-transition *::before, html.theme-transition *::after {
+            transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease !important;
         }
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -25,7 +61,7 @@
         body {
             background-color: var(--teal-dark);
             font-family: 'DM Sans', sans-serif;
-            color: #fff;
+            color: var(--text-main);
             overflow-x: hidden;
         }
 
@@ -35,8 +71,8 @@
             position: fixed;
             inset: 0;
             background-image:
-                linear-gradient(rgba(77,184,200,.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(77,184,200,.04) 1px, transparent 1px);
+                linear-gradient(var(--bg-grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px);
             background-size: 48px 48px;
             pointer-events: none;
             z-index: 0;
@@ -51,12 +87,12 @@
             align-items: center;
             justify-content: space-between;
             padding: 1rem 2.5rem;
-            background: rgba(12,29,38,.72);
+            background: var(--nav-bg);
             backdrop-filter: blur(14px);
             border-bottom: 1px solid rgba(77,184,200,.12);
         }
 
-        .nav-logo { font-family: 'Exo 2', sans-serif; font-weight: 900; font-size: 1.25rem; letter-spacing: 3px; color: #fff; text-decoration: none; }
+        .nav-logo { font-family: 'Exo 2', sans-serif; font-weight: 900; font-size: 1.25rem; letter-spacing: 3px; color: var(--text-main); text-decoration: none; }
         .nav-logo span { color: var(--teal-light); }
         .nav-sub { font-size: .6rem; letter-spacing: 4px; color: var(--text-dim); display: block; margin-top: -2px; }
 
@@ -65,7 +101,7 @@
         /* ── BUTTONS ── */
         .btn-vt {
             background: transparent;
-            color: #fff;
+            color: var(--text-main);
             border: 1.5px solid var(--teal-light);
             padding: .55rem 1.6rem;
             border-radius: 6px;
@@ -76,10 +112,10 @@
             transition: background .2s, color .2s;
             letter-spacing: .5px;
         }
-        .btn-vt:hover { background: var(--teal-light); color: var(--teal-dark); }
+        .btn-vt:hover { background: var(--teal-light); color: var(--btn-solid-text); }
         .btn-vt-solid {
             background: var(--teal-light);
-            color: var(--teal-dark);
+            color: var(--btn-solid-text);
             border: 1.5px solid var(--teal-light);
             padding: .55rem 1.6rem;
             border-radius: 6px;
@@ -90,7 +126,7 @@
             transition: opacity .2s;
             letter-spacing: .5px;
         }
-        .btn-vt-solid:hover { opacity: .85; color: var(--teal-dark); }
+        .btn-vt-solid:hover { opacity: .85; color: var(--btn-solid-text); }
 
         /* ── HERO ── */
         .hero {
@@ -197,7 +233,7 @@
         /* ── STATS STRIP ── */
         .stats-strip {
             position: relative; z-index: 1;
-            background: rgba(12,29,38,.7);
+            background: var(--nav-bg);
             border-top: 1px solid rgba(77,184,200,.1);
             border-bottom: 1px solid rgba(77,184,200,.1);
             padding: 2rem 0;
@@ -244,7 +280,7 @@
 
         /* Feature cards */
         .feat-card {
-            background: rgba(12,29,38,.75);
+            background: var(--card-bg);
             border: 1px solid rgba(77,184,200,.12);
             border-radius: 12px;
             padding: 1.75rem;
@@ -270,7 +306,7 @@
             font-family: 'Exo 2', sans-serif;
             font-size: 3.5rem;
             font-weight: 900;
-            color: rgba(77,184,200,.12);
+            color: var(--step-num-color);
             line-height: 1;
             margin-bottom: .5rem;
         }
@@ -287,7 +323,7 @@
         /* ── CTA SECTION ── */
         .cta-section {
             position: relative; z-index: 1;
-            background: rgba(12,29,38,.9);
+            background: var(--cta-bg);
             border-top: 1px solid rgba(77,184,200,.1);
             border-bottom: 1px solid rgba(77,184,200,.1);
             padding: 5rem 1.5rem;
@@ -334,6 +370,15 @@
             border-radius: 2px;
             margin-bottom: 1.5rem;
         }
+        
+        .vt-theme-float-switch { position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;align-items:center;gap:8px;background:rgba(10,21,37,.85);backdrop-filter:blur(10px);padding:6px 10px 6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.1);box-shadow:0 4px 20px rgba(0,0,0,.3) }
+        .vt-theme-float-switch .switch-label { font-size:11px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.5px }
+        .vt-theme-switch-mini { position:relative;display:inline-flex;align-items:center;cursor:pointer }
+        .vt-theme-switch-mini input { opacity:0;width:0;height:0;position:absolute }
+        .vt-switch-track-mini { width:44px;height:24px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:12px;position:relative;transition:background .3s;display:flex;align-items:center;padding:0 5px;justify-content:space-between }
+        .vt-switch-track-mini .icon-moon,.vt-switch-track-mini .icon-sun { font-size:11px;z-index:1;color:rgba(255,255,255,.5) }
+        .vt-switch-track-mini::after { content:'';width:18px;height:18px;background:#1db89a;border-radius:50%;position:absolute;top:2px;left:3px;transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:0 2px 6px rgba(0,0,0,.3) }
+        .vt-theme-switch-mini input:checked + .vt-switch-track-mini::after { transform:translateX(20px) }
     </style>
 </head>
 <body>
@@ -497,7 +542,7 @@
     </section>
 
     <!-- ─────────────── FLUJO DE TRABAJO ─────────────── -->
-    <section class="section" id="flujo" style="background: rgba(12,29,38,.5);">
+    <section class="section" id="flujo" style="background: var(--bg-flujo);">
         <div class="container">
             <div class="row align-items-center g-5">
 
@@ -583,12 +628,36 @@
         </div>
     </footer>
 
+    <div class="vt-theme-float-switch">
+        <span class="switch-label">Tema</span>
+        <label class="vt-theme-switch-mini">
+            <input type="checkbox" id="theme-checkbox">
+            <span class="vt-switch-track-mini">
+                <i class="bi bi-moon-stars icon-moon"></i>
+                <i class="bi bi-sun-fill icon-sun"></i>
+            </span>
+        </label>
+    </div>
+
     <script>
         // Scroll reveal
         const observer = new IntersectionObserver(entries => {
             entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
         }, { threshold: 0.12 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        (function() {
+            var html = document.documentElement;
+            var cb = document.getElementById('theme-checkbox');
+            cb.checked = (localStorage.getItem('vt-theme') === 'light');
+            cb.addEventListener('change', function() {
+                html.classList.add('theme-transition');
+                var theme = cb.checked ? 'light' : 'dark';
+                html.setAttribute('data-theme', theme);
+                localStorage.setItem('vt-theme', theme);
+                setTimeout(function() { html.classList.remove('theme-transition'); }, 400);
+            });
+        })();
     </script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -9,8 +9,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script>
+        // Apply saved theme IMMEDIATELY to prevent flash
+        (function() {
+            var t = localStorage.getItem('vt-theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
     <style>
-        :root {
+        /* ── DARK THEME (default) ── */
+        :root,
+        [data-theme="dark"] {
             --bg-base: #080f1a;
             --bg-sidebar: #0a1525;
             --bg-card: #0f1e30;
@@ -29,6 +38,96 @@
             --success: #2ec987;
             --info: #3ab0db;
             --sidebar-w: 210px;
+        }
+
+        /* ── LIGHT THEME ── */
+        [data-theme="light"] {
+            --bg-base: #f0f2f5;
+            --bg-sidebar: #ffffff;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f8f9fb;
+            --bg-input: #f5f6f8;
+            --border: rgba(0, 0, 0, 0.08);
+            --border-bright: rgba(0, 0, 0, 0.14);
+            --teal: #14957e;
+            --teal-dim: #11806c;
+            --teal-glow: rgba(20, 149, 126, 0.12);
+            --text-primary: #1a2332;
+            --text-muted: #5a6a7e;
+            --text-faint: #94a3b8;
+            --danger: #d63a4a;
+            --warning: #c88a2e;
+            --success: #1fa86e;
+            --info: #2b96bd;
+        }
+
+        /* ── SMOOTH THEME TRANSITION ── */
+        html.theme-transition,
+        html.theme-transition *,
+        html.theme-transition *::before,
+        html.theme-transition *::after {
+            transition: background-color 0.35s ease,
+                        color 0.35s ease,
+                        border-color 0.35s ease,
+                        box-shadow 0.35s ease !important;
+        }
+
+        /* ── THEME SWITCH ── */
+        .vt-theme-switch {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            gap: 0;
+        }
+        .vt-theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+            position: absolute;
+        }
+        .vt-switch-track {
+            width: 52px;
+            height: 28px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-bright);
+            border-radius: 14px;
+            position: relative;
+            transition: background 0.3s, border-color 0.3s;
+            display: flex;
+            align-items: center;
+            padding: 0 6px;
+            justify-content: space-between;
+        }
+        .vt-switch-track .icon-moon,
+        .vt-switch-track .icon-sun {
+            font-size: 12px;
+            z-index: 1;
+            transition: opacity 0.2s;
+        }
+        .vt-switch-track .icon-moon {
+            color: var(--text-muted);
+        }
+        .vt-switch-track .icon-sun {
+            color: var(--text-muted);
+        }
+        .vt-switch-track::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: var(--teal);
+            border-radius: 50%;
+            position: absolute;
+            top: 3px;
+            left: 4px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+        }
+        .vt-theme-switch input:checked + .vt-switch-track::after {
+            transform: translateX(24px);
+        }
+        .vt-theme-switch input:checked + .vt-switch-track {
+            background: var(--bg-input);
         }
 
         *,
@@ -784,6 +883,14 @@
         <header class="vt-topbar">
             <div class="vt-topbar-title">@yield('topbar-title', 'ASSETCORE CMMS')</div>
             <div class="vt-topbar-actions">
+                {{-- Theme Switch --}}
+                <label class="vt-theme-switch" title="Cambiar tema">
+                    <input type="checkbox" id="theme-checkbox">
+                    <span class="vt-switch-track">
+                        <i class="bi bi-moon-stars icon-moon"></i>
+                        <i class="bi bi-sun-fill icon-sun"></i>
+                    </span>
+                </label>
                 <a href="{{ route('profile.edit') }}" class="vt-topbar-icon" title="Mi Perfil">
                     <i class="bi bi-person"></i>
                 </a>
@@ -835,6 +942,25 @@
     @endif
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    {{-- Theme Switch Script --}}
+    <script>
+        (function() {
+            var html = document.documentElement;
+            var cb = document.getElementById('theme-checkbox');
+            var saved = localStorage.getItem('vt-theme') || 'dark';
+            cb.checked = (saved === 'light');
+
+            cb.addEventListener('change', function() {
+                html.classList.add('theme-transition');
+                var theme = cb.checked ? 'light' : 'dark';
+                html.setAttribute('data-theme', theme);
+                localStorage.setItem('vt-theme', theme);
+                setTimeout(function() { html.classList.remove('theme-transition'); }, 400);
+            });
+        })();
+    </script>
+
     @yield('scripts')
 </body>
 
