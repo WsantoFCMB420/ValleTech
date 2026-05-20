@@ -30,13 +30,26 @@ class UsuarioController extends Controller
             'estado' => 'required|in:Pendiente,Aprobado,Rechazado',
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'rol' => $request->rol,
             'estado' => $request->estado,
         ]);
+
+        if ($user->rol === 'Tecnico' && $user->estado === 'Aprobado') {
+            $parts = explode(' ', $user->name, 2);
+            \App\Models\Tecnico::firstOrCreate(
+                ['email' => $user->email],
+                [
+                    'nombre' => $parts[0] ?? $user->name,
+                    'apellido' => $parts[1] ?? '',
+                    'especialidad' => 'General',
+                    'estado' => 'Activo'
+                ]
+            );
+        }
 
         return redirect()->route('usuarios.index')
             ->with('success', 'Usuario creado correctamente.');
@@ -68,6 +81,19 @@ class UsuarioController extends Controller
                 'password' => 'string|min:8|confirmed',
             ]);
             $usuario->update(['password' => Hash::make($request->password)]);
+        }
+
+        if ($usuario->rol === 'Tecnico' && $usuario->estado === 'Aprobado') {
+            $parts = explode(' ', $usuario->name, 2);
+            \App\Models\Tecnico::firstOrCreate(
+                ['email' => $usuario->email],
+                [
+                    'nombre' => $parts[0] ?? $usuario->name,
+                    'apellido' => $parts[1] ?? '',
+                    'especialidad' => 'General',
+                    'estado' => 'Activo'
+                ]
+            );
         }
 
         return redirect()->route('usuarios.index')

@@ -113,6 +113,26 @@
                 </div>
             </div>
 
+            {{-- Documentos Legales --}}
+            <div class="vt-card mb-4">
+                <div class="vt-card-header">
+                    <span class="header-title"><i class="bi bi-file-earmark-text me-2" style="color:var(--teal)"></i>Documentos Legales</span>
+                </div>
+                <div class="vt-card-body">
+                    <p style="font-size:14px;color:var(--text-muted);margin-bottom:16px">
+                        Accede rápidamente a las políticas y acuerdos de uso de la plataforma ValleTech CMMS.
+                    </p>
+                    <div style="display:flex;gap:12px;flex-wrap:wrap">
+                        <a href="{{ route('legal.terminos') }}" target="_blank" class="btn-vt-outline" style="text-decoration:none;font-size:14px;padding:8px 16px;">
+                            <i class="bi bi-shield-check"></i> Términos y Condiciones
+                        </a>
+                        <a href="{{ route('legal.cookies') }}" target="_blank" class="btn-vt-outline" style="text-decoration:none;font-size:14px;padding:8px 16px;">
+                            <i class="bi bi-cookie"></i> Política de Cookies
+                        </a>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <div class="col-lg-5">

@@ -571,6 +571,8 @@
             });
         })();
     </script>
+    {{-- TERMS MODAL OVERLAY --}}
+    @include('components.terms-modal')
 </body>
 
 </html>

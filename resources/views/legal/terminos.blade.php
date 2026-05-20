@@ -23,8 +23,8 @@
             --border-bright: rgba(255, 255, 255, 0.14);
             --teal: #1db89a;
             --teal-dim: #157a68;
-            --text-primary: #dce8f0;
-            --text-muted: #6b8299;
+            --text-primary: #f0f4f8;
+            --text-muted: #8b9bb4;
             --bg-hero: linear-gradient(135deg, #0a1525, #0f2a3a);
         }
 
@@ -35,8 +35,8 @@
             --border-bright: rgba(0, 0, 0, 0.14);
             --teal: #14957e;
             --teal-dim: #11806c;
-            --text-primary: #1a2332;
-            --text-muted: #5a6a7e;
+            --text-primary: #111827;
+            --text-muted: #374151;
             --bg-hero: linear-gradient(135deg, #e6eef4, #f4f7fb);
         }
 
@@ -184,7 +184,7 @@
         .toc a {
             color: var(--teal);
             text-decoration: none;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
         }
 
@@ -215,24 +215,24 @@
         }
 
         .section p {
-            font-size: 14px;
+            font-size: 20px;
             color: var(--text-muted);
-            line-height: 1.8;
-            margin-bottom: 12px;
+            line-height: 1.85;
+            margin-bottom: 20px;
         }
 
         .section ul {
-            padding-left: 20px;
+            padding-left: 24px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
         .section li {
-            font-size: 14px;
+            font-size: 20px;
             color: var(--text-muted);
-            line-height: 1.7;
+            line-height: 1.85;
         }
 
         .highlight-box {
@@ -240,8 +240,8 @@
             border: 1px solid rgba(29, 184, 154, 0.2);
             border-radius: 8px;
             padding: 16px 20px;
-            margin: 16px 0;
-            font-size: 13px;
+            margin: 20px 0;
+            font-size: 16px;
             color: var(--teal);
         }
 
@@ -250,8 +250,8 @@
             border: 1px solid rgba(224, 92, 107, 0.2);
             border-radius: 8px;
             padding: 16px 20px;
-            margin: 16px 0;
-            font-size: 13px;
+            margin: 20px 0;
+            font-size: 16px;
             color: #e05c6b;
         }
 

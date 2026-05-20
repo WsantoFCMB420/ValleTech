@@ -914,32 +914,8 @@
 
     </div>
 
-    {{-- COOKIE BANNER --}}
-    @if (!request()->cookie('cookies_accepted'))
-        <div id="cookie-banner">
-            <p>
-                <i class="bi bi-shield-check" style="color:var(--teal)"></i>
-                Usamos cookies para mejorar tu experiencia. Al continuar navegando, aceptas nuestra
-                <a href="{{ route('legal.cookies') }}">Política de Cookies</a> y
-                <a href="{{ route('legal.terminos') }}">Términos y Condiciones</a>.
-            </p>
-            <button class="btn-vt" onclick="acceptCookies()" id="accept-cookies-btn">
-                <i class="bi bi-check-circle"></i> Aceptar
-            </button>
-            <a href="{{ route('legal.cookies') }}" class="btn-vt-outline">Más info</a>
-        </div>
-        <script>
-            function acceptCookies() {
-                document.cookie = "cookies_accepted=1; max-age=31536000; path=/";
-                document.getElementById('cookie-banner').style.display = 'none';
-            }
-            // Si ya fue aceptado en sesión, ocultar
-            if (document.cookie.indexOf('cookies_accepted=1') !== -1) {
-                var b = document.getElementById('cookie-banner');
-                if (b) b.style.display = 'none';
-            }
-        </script>
-    @endif
+    {{-- TERMS MODAL OVERLAY --}}
+    @include('components.terms-modal')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
